@@ -1,0 +1,8 @@
+# includes.yaml
+---
+
+name: Player Session Service API-Test
+description: Tests submitting player events and reading results.
+
+variables:
+  host: http://localhost:5000
