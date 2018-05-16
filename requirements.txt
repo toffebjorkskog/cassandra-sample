@@ -1,6 +1,8 @@
 cassandra-driver
-Flask
+flask
 flask_restplus
-flask_cassandra
+flask-cqlalchemy
+
+#testing
 pytest
 tavern

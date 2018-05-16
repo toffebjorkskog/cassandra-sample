@@ -1,12 +1,11 @@
-from cassandra.cqlengine.models import Model
-from cassandra.cqlengine import columns
+from ..models import db
 
 
-class SessionStartByCountry(Model):
+class SessionStartByCountry(db.Model):
     __table_name_case_sensitive__ = 'session_start_by_country'
-    __keyspace__ = 'player_sessions'
-    country = columns.Text(partition_key=True, primary_key=True)
-    daybucket = columns.Text(partition_key=True, primary_key=True)
-    start_ts = columns.DateTime(primary_key=True)
-    player_id = columns.UUID(required=True)
-    session_id = columns.Text(required=True)
+    __default_ttl__ = 31536000
+    country = db.columns.Text(partition_key=True, primary_key=True)
+    daybucket = db.columns.Text(partition_key=True, primary_key=True)
+    start_ts = db.columns.DateTime(primary_key=True)
+    player_id = db.columns.UUID(required=True)
+    session_id = db.columns.Text(required=True)
