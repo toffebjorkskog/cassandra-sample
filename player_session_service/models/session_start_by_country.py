@@ -8,5 +8,5 @@ class SessionStartByCountry(Model):
     country = columns.Text(partition_key=True, primary_key=True)
     daybucket = columns.Text(partition_key=True, primary_key=True)
     start_ts = columns.DateTime(primary_key=True)
-    player_id = columns.UUID()
-    session_id = columns.UUID()
+    player_id = columns.UUID(required=True)
+    session_id = columns.Text(required=True)

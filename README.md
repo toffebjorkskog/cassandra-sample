@@ -2,17 +2,23 @@
 
 ## Installation
 
+### For local development without Docker
+Install and start Cassandra.
+By default a local single node on localhost is assumed. You can also connect to a cluster.
+If you want to connect to an external node or cluster, see _configuraton_ section
 ```
-virtualenv -p `which python3` venv
+cassandra -f
+```
+And then launch the API
+```
 source .env
 pip install -r requirements.txt
+flask run
 ```
 
-```
-$ source .env
-$ python run.py
-```
-
+## Configuration
+The default configuration settings are located in `player_session_service/config/default_settings.cfg`.
+The settings can be overriden by pointing the environment variable `PLAYER_SESSION_SERVICE_SETTINGS` to a similar config file.
 
 
 ## Testing

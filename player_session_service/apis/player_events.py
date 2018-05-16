@@ -1,16 +1,31 @@
 from flask import request
 
 from flask_restplus import Namespace, Resource, fields
-from ..core.player_session_manager import PlayerSessionManager
+from ..core.player_session_manager import insert_player_events
 
 api = Namespace('player_events', description='Player Events related operations')
 
 event = api.model('Player Event', {
-    'event': fields.String(required=True, description='start|end'),
-    'country': fields.String(required=False, description='Country code, example: FI'),
-    'player_id': fields.String(required=True, description='Player id, example: 0a2d12a1a7e145de8bae44c0c6e06629'),
-    'session_id': fields.String(required=True, description='Player id, example: 4a0c43c9-c43a-42ff-ba55-67563dfa35d4'),
-    'ts': fields.DateTime(required=True, description='Start or end Timestamp'),
+    'event': fields.String(
+        required=True,
+        description='start|end'
+    ),
+    'country': fields.String(
+        required=False,
+        description='Country code, example: FI'
+    ),
+    'player_id': fields.String(
+        required=True,
+        description='Player id, example: 0a2d12a1a7e145de8bae44c0c6e06629'
+    ),
+    'session_id': fields.String(
+        required=True,
+        description='Player id, example: 4a0c43c9-c43a-42ff-ba55-67563dfa35d4'
+    ),
+    'ts': fields.DateTime(
+        required=True,
+        description='Start or end Timestamp'
+    ),
 })
 
 player_events_schema = api.schema_model('PlayerEvents', {
@@ -44,8 +59,6 @@ player_events_schema = api.schema_model('PlayerEvents', {
     }
 })
 
-player_session_mgr = PlayerSessionManager()
-
 
 @api.route('/player-events/')
 class PlayerSessionEvents(Resource):
@@ -54,4 +67,4 @@ class PlayerSessionEvents(Resource):
     @api.marshal_list_with(event)
     def post(self):
         '''Submit event batches (1-10 events / batch)'''
-        return player_session_mgr.insert_player_events(request.get_json())
+        return insert_player_events(request.get_json())

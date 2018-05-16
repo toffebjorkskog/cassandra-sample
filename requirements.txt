@@ -1,7 +1,6 @@
-cassandra-driver==3.14.0
+cassandra-driver
 Flask
 flask_restplus
 flask_cassandra
 pytest
 tavern
-python-dotenv
