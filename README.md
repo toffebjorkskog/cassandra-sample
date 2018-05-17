@@ -24,13 +24,9 @@ The settings can be overriden by pointing the environment variable `PLAYER_SESSI
 ## Testing
 For Unit testing, run:
 ```
-pytest player_session_service/tests/core
+pytest tests
 ```
 For Continuous Integration Testing of the REST-API, run the following:
 ```
-tavern-ci --stdout player_session_service/tests/apis/*.yaml
-```
-To run both in one command, run:
-```
-./test.sh
+tavern-ci --stdout tests/apis/*.tavern.yaml
 ```
