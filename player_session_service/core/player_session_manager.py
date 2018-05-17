@@ -7,7 +7,7 @@ from .validation import validate_start_event
 
 def insert_player_events(player_events):
     for event in player_events:
-        if event["event"] == "start":
+        if event['event'] == 'start':
             insert_start_event(event)
 
 
