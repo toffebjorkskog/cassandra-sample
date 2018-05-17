@@ -6,7 +6,7 @@ includes:
   - !include includes.yaml
 
 stages:
-  - name: Submit one start event
+  - name: Submit one start event containing microseconds
     request:
       url: "{host}/player-session-service/player-events/"
       method: POST
@@ -16,6 +16,23 @@ stages:
           player_id: 0a2d12a1a7e145de8bae44c0c6e06629
           session_id: "4a0c43c9-c43a-42ff-ba55-67563dfa35d4"
           ts: "2016-12-02T12:48:05.520022"
+      headers:
+        content-type: application/json
+    response:
+      status_code: 200
+      body:
+        status: "success" # Todo: add correct response also
+stages:
+  - name: Submit one start event without microseconds
+    request:
+      url: "{host}/player-session-service/player-events/"
+      method: POST
+      json:
+        - event: start
+          country: TF
+          player_id: ea6e6aab26b54ba7995392a3fec6b9b8
+          session_id: "e20d2deb-5241-43f9-a979-6b4bbbec58ce"
+          ts: "2016-11-06T14:54:48"
       headers:
         content-type: application/json
     response:
