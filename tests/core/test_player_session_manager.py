@@ -24,3 +24,16 @@ def test_create_start_event_with_wrong_date():
             }
     with pytest.raises(Exception) as e_info:
         returndata = insert_start_event(event)
+
+def test_create_start_event_with_wrong_event_name():
+    from player_session_service.core.player_session_manager import insert_start_event
+    event = {
+                "player_id": "02a0511372394597aa76c89f106aa547",
+                "country": "AE",
+                "event": "begin",
+                "session_id": "e0d836e6-2128-436b-a689-38c47a477118",
+                "ts": "2016-11-06T03:11:56"
+            }
+
+    with pytest.raises(Exception) as e_info:
+        returndata = insert_start_event(event)
