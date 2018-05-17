@@ -24,7 +24,7 @@ The settings can be overriden by pointing the environment variable `PLAYER_SESSI
 ## Testing
 For Unit testing, run:
 ```
-pytest tests
+pytest
 ```
 For Continuous Integration Testing of the REST-API, run the following:
 ```
