@@ -64,7 +64,10 @@ player_events_schema = api.schema_model('PlayerEvents', {
 class PlayerSessionEvents(Resource):
     @api.doc('post_events')
     @api.expect(player_events_schema, validate=True)
-    @api.marshal_list_with(event)
     def post(self):
         '''Submit event batches (1-10 events / batch)'''
-        return insert_player_events(request.get_json()), 201
+        try:
+            insert_player_events(request.get_json())
+            return {'status': 'Created'}, 201
+        except Exception as e:
+            return {'status': 'Bad Request', 'message': str(e)}, 400

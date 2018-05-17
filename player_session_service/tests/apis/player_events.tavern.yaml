@@ -27,11 +27,26 @@ stages:
       method: POST
       json:
         - event: start
-          country: TF
-          player_id: ea6e6aab26b54ba7995392a3fec6b9b8
+          country: IS
+          player_id: fa6e6aab26b54ba7995392a3fec6b9b8
           session_id: "e20d2deb-5241-43f9-a979-6b4bbbec58ce"
-          ts: "2016-11-06T14:54:48"
+          ts: "2017-11-06T14:54:48"
       headers:
         content-type: application/json
     response:
       status_code: 201
+
+  - name: Invalid date should fail
+    request:
+      url: "{host}/player-session-service/player-events/"
+      method: POST
+      json:
+        - event: start
+          country: FI
+          player_id: aa6e6aab26b54ba7995392a3fec6b9b8
+          session_id: "aaaaaaa2-5241-43f9-a979-6b4bbbec58ce"
+          ts: "2016-11-40T14:54:48"
+      headers:
+        content-type: application/json
+    response:
+      status_code: 400
