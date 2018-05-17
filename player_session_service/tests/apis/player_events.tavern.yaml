@@ -19,10 +19,8 @@ stages:
       headers:
         content-type: application/json
     response:
-      status_code: 200
-      body:
-        status: "success" # Todo: add correct response also
-stages:
+      status_code: 201
+
   - name: Submit one start event without microseconds
     request:
       url: "{host}/player-session-service/player-events/"
@@ -36,6 +34,4 @@ stages:
       headers:
         content-type: application/json
     response:
-      status_code: 200
-      body:
-        status: "success"
+      status_code: 201

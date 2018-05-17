@@ -67,4 +67,4 @@ class PlayerSessionEvents(Resource):
     @api.marshal_list_with(event)
     def post(self):
         '''Submit event batches (1-10 events / batch)'''
-        return insert_player_events(request.get_json())
+        return insert_player_events(request.get_json()), 201
