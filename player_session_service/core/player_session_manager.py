@@ -16,7 +16,7 @@ def insert_start_event(event):
         country=event['country'],
         daybucket=event['ts'][:10],
         start_ts=get_datetime(event['ts']),
-        #player_id=uuid.UUID(event['player_id'])
-        #sess_id=uuid.UUID(event['session_id'])
+        player_id=uuid.UUID(event['player_id']),
+        session_id=uuid.UUID(event['session_id'])
     )
     eventStart.save()
