@@ -17,13 +17,29 @@ from cassandra.cqlengine.management import (
 )
 
 
+@pytest.fixture
+def client():
+    assert False == True
+    '''db_fd, flaskr.app.config['DATABASE'] = tempfile.mkstemp()
+    flaskr.app.config['TESTING'] = True
+    client = flaskr.app.test_client()
+
+    with flaskr.app.app_context():
+        flaskr.init_db()
+
+    yield client
+
+    os.close(db_fd)
+    os.unlink(flaskr.app.config['DATABASE'])'''
+
+
 @pytest.fixture(scope="session")
 def app(request):
     """
     Returns session-wide testing application.
     """
-    return create_app("testing")  # important parameter
-
+    app = create_app("testing")  # important parameter
+    return app
 
 @pytest.fixture(scope="session")
 def db(app, request):
@@ -54,4 +70,3 @@ def session(app, db, request):
     """
     with app.app_context():
         _reset_db(app, db)
-
