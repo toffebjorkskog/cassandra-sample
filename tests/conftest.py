@@ -1,7 +1,12 @@
-# module conftest.py
-# This fixture config is baed upon the github issue for pytest-flask:
-# https://github.com/pytest-dev/pytest-flask/issues/70#issuecomment-361005780
-# by @kenshiro-o
+'''
+  module conftest.py
+
+  See
+  http://flask.pocoo.org/docs/1.0/testing/
+  https://docs.pytest.org/en/latest/fixture.html
+  and
+  https://github.com/pytest-dev/pytest-flask/issues/70#issuecomment-361005780
+'''
 
 import pytest
 
