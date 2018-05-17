@@ -1,5 +1,6 @@
 import pytest
 
+
 def test_create_start_event():
     from player_session_service.core.player_session_manager import insert_start_event
     event = {
@@ -10,7 +11,7 @@ def test_create_start_event():
                 "ts": "2016-11-06T03:11:56"
             }
     returndata = insert_start_event(event)
-    assert str(returndata["player_id"]) == "02a05113-7239-4597-aa76-c89f106aa547"
+    assert str(returndata["player_id"]) == '02a05113-7239-4597-aa76-c89f106aa547'
 
 
 def test_create_start_event_with_wrong_date():
@@ -25,6 +26,7 @@ def test_create_start_event_with_wrong_date():
     with pytest.raises(Exception) as e_info:
         returndata = insert_start_event(event)
 
+
 def test_create_start_event_with_wrong_event_name():
     from player_session_service.core.player_session_manager import insert_start_event
     event = {
@@ -35,5 +37,5 @@ def test_create_start_event_with_wrong_event_name():
                 "ts": "2016-11-06T03:11:56"
             }
 
-    with pytest.raises(Exception) as e_info:
+    with pytest.raises(ValueError) as e_info:
         returndata = insert_start_event(event)
