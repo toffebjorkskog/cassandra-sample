@@ -9,29 +9,11 @@
 '''
 
 import pytest
-
 from player_session_service import create_app
 from player_session_service.models import db as _db
 from cassandra.cqlengine.management import (
     drop_keyspace, create_keyspace_simple
 )
-
-
-@pytest.fixture
-def client():
-    assert False == True
-    '''db_fd, flaskr.app.config['DATABASE'] = tempfile.mkstemp()
-    flaskr.app.config['TESTING'] = True
-    client = flaskr.app.test_client()
-
-    with flaskr.app.app_context():
-        flaskr.init_db()
-
-    yield client
-
-    os.close(db_fd)
-    os.unlink(flaskr.app.config['DATABASE'])'''
-
 
 @pytest.fixture(scope="session")
 def app(request):

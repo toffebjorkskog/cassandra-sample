@@ -9,10 +9,19 @@ If you want to connect to an external node or cluster, see _configuraton_ sectio
 ```
 cassandra -f
 ```
-And then launch the API
+set up vitual environment and install required packages.
 ```
 source .env
 pip install -r requirements.txt
+```
+
+set up database if you are using local standalone cassandra node:
+```
+python setup.py
+```
+
+And then launch the API
+```
 flask run
 ```
 
@@ -24,7 +33,7 @@ The settings can be overriden by pointing the environment variable `PLAYER_SESSI
 ## Testing
 For Unit testing, run:
 ```
-pytest
+python -m pytest
 ```
 For Continuous Integration Testing of the REST-API, run the following:
 ```
