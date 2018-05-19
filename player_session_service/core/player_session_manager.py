@@ -12,6 +12,11 @@ from .validation import validate_start_event, validate_end_event
 
 
 def insert_player_events(player_events):
+    if len(player_events) > 10:
+        raise ValueError('Events must not be more than 10')
+    if len(player_events) == 0:
+        raise ValueError('Amount of events must be between 1 and 10')
+
     for event in player_events:
         if event['event'] == 'start':
             insert_start_event(event)
