@@ -8,7 +8,7 @@ from ..models.session_events_by_player_id import (
 )
 import uuid
 import dateutil.parser
-from .validation import validate_start_event
+from .validation import validate_start_event, validate_end_event
 
 
 def insert_player_events(player_events):
@@ -37,28 +37,30 @@ def insert_start_event(event):
         session_id=uuid.UUID(event['session_id']),
     )
     player_session.save()
-    check_event_completed(event)
-    return dict(event_start)
+    returndata = {'player_session': dict(player_session)}
+
+    completed_session = check_event_completed(event)
+    if completed_session is not None:
+        returndata['completed_session'] = dict(completed_session)
+
+    return returndata
 
 
 def insert_end_event(event):
     validate_end_event(event)
-
-    player_session = PlayerSessionsByPlayerId.create(
-        player_id=uuid.UUID(event['player_id']),
-        end_ts=dateutil.parser.parse(event['ts']),
-        session_id=uuid.UUID(event['session_id']),
-    )
-    player_session.save()
 
     player_session = EndSessionEvents.create(
         player_id=uuid.UUID(event['player_id']),
         ts=dateutil.parser.parse(event['ts']),
         session_id=uuid.UUID(event['session_id']),
     )
-    check_event_completed(event)
+    player_session.save()
+    returndata = {'player_session': dict(player_session)}
+    completed_session = check_event_completed(event)
+    if completed_session is not None:
+        returndata['completed_session'] = dict(completed_session)
 
-    return dict(eventStart)
+    return returndata
 
 
 def check_event_completed(event):
@@ -80,6 +82,6 @@ def check_event_completed(event):
             session_id=start_event.session_id,
             country=start_event.country,
         )
-        return True
+        return completed_session
     else:
-        return False
+        return None

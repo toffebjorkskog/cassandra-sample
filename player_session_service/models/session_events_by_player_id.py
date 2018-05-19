@@ -11,7 +11,7 @@ class SessionEventsByPlayerId(db.Model):
     ts = db.columns.DateTime(primary_key=True, clustering_order='DESC')
     player_id = db.columns.UUID(primary_key=True)
     event = db.columns.Text(primary_key=True, discriminator_column=True)
-    country = db.columns.Text(required=True)
+    country = db.columns.Text()
 
 
 class StartSessionEvents(SessionEventsByPlayerId):
