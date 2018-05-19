@@ -1,0 +1,19 @@
+---
+# Test for thesting API for fetching session starts for the last X
+# (X is defined by the user) hours for each country
+test_name: Query 
+
+includes:
+  - !include includes.yaml
+
+stages:
+  - name: fetch sessions for the last x hours in Finland
+    request:
+      url: "{host}/player-session-service/country/FI"
+      method: POST
+      json:
+        - hours: 10
+      headers:
+        content-type: application/json
+    response:
+      status_code: 201

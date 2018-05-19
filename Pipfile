@@ -20,5 +20,4 @@ python_version = "3.6"
 [scripts]
 server = "flask run"
 test = "python -m pytest"
-test-api = "tavern-ci --stdout tests/apis/test_player_events.taver.yaml"
 
