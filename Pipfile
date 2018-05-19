@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+cassandra-driver = "*"
+flask-restplus = "*"
+Flask = "*"
+Flask-CQLAlchemy = "*"
+tavern = "*"
+
+[dev-packages]
+pytest = "*"
+tavern = "*"
+
+[requires]
+python_version = "3.6"
+
+[scripts]
+server = "flask run"
+test = "python -m pytest"
+test-api = "tavern-ci --stdout tests/apis/test_player_events.taver.yaml"
+
