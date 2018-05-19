@@ -64,8 +64,9 @@ def insert_end_event(event):
 def check_event_completed(event):
     '''
     Since we cannot be sure if the data arrives in chronological order,
-    we cannot just say that an order is completed once the end event arrives.
-    Although, if that was the case, we would need fewer lookups.
+    the sample json data can have end events before start events.
+    Thus, we cannot just say that an order is completed once the end event
+    arrives. Although, if that was the case, we would need fewer lookups.
     '''
     q = SessionEventsByPlayerId.filter(session_id=event['session_id'])
     events = q.get()
