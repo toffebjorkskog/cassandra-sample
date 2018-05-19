@@ -10,5 +10,5 @@ class CompletedSessionsByPlayerId(db.Model):
     player_id = db.columns.UUID(partition_key=True, primary_key=True)
     session_id = db.columns.UUID(primary_key=True)
     end_ts = db.columns.DateTime(primary_key=True, clustering_order='DESC')
-    start_ts = db.columns.DateTime()
     country = db.columns.Text(required=True)
+    start_ts = db.columns.DateTime()

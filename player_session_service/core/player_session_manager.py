@@ -70,16 +70,18 @@ def check_event_completed(event):
     Thus, we cannot just say that an order is completed once the end event
     arrives. Although, if that was the case, we would need fewer lookups.
     '''
-    q = SessionEventsByPlayerId.filter(session_id=event['session_id'])
-    events = q.get()
+    session_id = event['session_id']
+    player_id = event['player_id']
+    events = SessionEventsByPlayerId.objects(player_id=player_id,
+                                             session_id=session_id)
     if len(events) == 2:  # these are ordered by timestamp desc
         end_event = events[0]
         start_event = events[1]
         completed_session = CompletedSessionsByPlayerId.create(
-            player_id=start_event.player_id,
-            start_ts=start_event.ts,
+            player_id=player_id,
             end_ts=end_event.ts,
-            session_id=start_event.session_id,
+            start_ts=start_event.ts,
+            session_id=session_id,
             country=start_event.country,
         )
         return completed_session
