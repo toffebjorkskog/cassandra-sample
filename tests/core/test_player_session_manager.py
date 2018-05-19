@@ -32,19 +32,3 @@ def test_create_start_event__uuid_is_prettified():
     returndata = insert_start_event(event)
     uuid_with_dashes = '02a05113-7239-4597-aa76-c89f106aa547'
     assert str(returndata['player_id']) == uuid_with_dashes
-
-
-def test_create_start_event_with_wrong_date():
-    event = get_sample_start_event()
-    event['ts'] = '2016-99-02T12:48:05.520022'
-
-    with pytest.raises(ValueError) as e_info:
-        insert_start_event(event)
-
-
-def test_create_start_event_with_wrong_event_name():
-    event = get_sample_start_event()
-    event['event'] = 'foo'
-
-    with pytest.raises(ValueError) as e_info:
-        insert_start_event(event)
