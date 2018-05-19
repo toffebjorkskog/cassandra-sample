@@ -1,109 +1,124 @@
 import pytest
-from player_session_service.core.validation import validate_start_event
+from player_session_service.core.validation import (
+    validate_start_event, validate_end_event
+)
+from helpfunctions import get_sample_start_event, get_sample_end_event
 
 
-def test_validate_start_event__missing_parameters__event():
-    event = {
-            'player_id': '02a0511372394597aa76c89f106aa547',
-            'country': 'AE',
-            'session_id': 'e0d836e6-2128-436b-a689-38c47a477118',
-            'ts': '2016-11-06T03:11:56'
-    }
+'''
+Testing validation of start events:
+'''
+
+
+def test_validate_start_event__valid_event_should_not_raise_error():
+    event = get_sample_start_event()
+    try:
+        validate_start_event(event)
+        assert True
+    except:
+        pytest.fail("Valid start event raised exception")
+
+
+def test_validate_start_event__missing_event():
+    event = get_sample_start_event()
+    del event['event']
     with pytest.raises(TypeError) as e_info:
         validate_start_event(event)
 
 
-def test_validate_start_event__missing_parameters__player_id():
-    event = {
-            'country': 'AE',
-            'event': 'start',
-            'session_id': 'e0d836e6-2128-436b-a689-38c47a477118',
-            'ts': '2016-11-06T03:11:56'
-    }
+def test_validate_start_event__missing_player_id():
+    event = get_sample_start_event()
+    del event['player_id']
     with pytest.raises(TypeError) as e_info:
         validate_start_event(event)
 
 
-def test_validate_start_event__missing_parameters__country():
-    event = {
-            'player_id': '02a0511372394597aa76c89f106aa547',
-            'event': 'start',
-            'session_id': 'e0d836e6-2128-436b-a689-38c47a477118',
-            'ts': '2016-11-06T03:11:56'
-    }
+def test_validate_start_event__missing_country():
+    event = get_sample_start_event()
+    del event['country']
     with pytest.raises(TypeError) as e_info:
         validate_start_event(event)
 
 
-def test_validate_start_event__missing_parameters__session_id():
-    event = {
-            'player_id': '02a0511372394597aa76c89f106aa547',
-            'country': 'AE',
-            'event': 'start',
-            'ts': '2016-11-06T03:11:56'
-    }
+def test_validate_start_event__missing_session_id():
+    event = get_sample_start_event()
+    del event['session_id']
     with pytest.raises(TypeError) as e_info:
         validate_start_event(event)
 
 
-def test_validate_start_event__missing_parameters__ts():
-    event = {
-            'player_id': '02a0511372394597aa76c89f106aa547',
-            'country': 'AE',
-            'event': 'start',
-            'session_id': 'e0d836e6-2128-436b-a689-38c47a477118',
-    }
+def test_validate_start_event__missing_ts():
+    event = get_sample_start_event()
+    del event['ts']
     with pytest.raises(TypeError) as e_info:
         validate_start_event(event)
 
 
-def test_validate_start_event__wrong_parameters__ts():
-    event = {
-            'player_id': '02a0511372394597aa76c89f106aa547',
-            'country': 'AE',
-            'event': 'start',
-            'session_id': 'e0d836e6-2128-436b-a689-38c47a477118',
-            'ts': '2016-00-06T03:11:56'
-
-    }
+def test_validate_start_event__invalid_ts():
+    event = get_sample_start_event()
+    event['ts'] = '2016-00-06T03:11:56'
     with pytest.raises(ValueError) as e_info:
         validate_start_event(event)
 
 
-def test_validate_start_event__wrong_parameters__non_uuid_player_id():
-    event = {
-            'player_id': '02a05GÖÖÖÖ1372394597aa76c89f106aa547',
-            'country': 'AE',
-            'event': 'start',
-            'session_id': 'e0d836e6-2128-436b-a689-38c47a477118',
-            'ts': '2016-11-06T03:11:56'
-
-    }
+def test_validate_start_event__invalid_player_id():
+    event = get_sample_start_event()
+    event['player_id'] = '02a05GÖÖÖÖ1372394597aa76c89f106aa547'
     with pytest.raises(ValueError) as e_info:
         validate_start_event(event)
 
 
-def test_validate_start_event__wrong_parameters__non_uuid_session_id():
-    event = {
-            'player_id': '02a0511372394597aa76c89f106aa547',
-            'country': 'AE',
-            'event': 'start',
-            'session_id': 'e0d83Öe6-2128-436b-a689-38c47a477118',
-            'ts': '2016-11-06T03:11:56'
-
-    }
+def test_validate_start_event__invalid_session_id():
+    event = get_sample_start_event()
+    event['session_id'] = 'e0d83Öe6-2128-436b-a689-38c47a477118'
     with pytest.raises(ValueError) as e_info:
         validate_start_event(event)
 
 
-def test_validate_start_event__wrong_parameters__invalid_countrycode():
-    event = {
-            'player_id': '02a0511372394597aa76c89f106aa547',
-            'country': 'AEE',
-            'event': 'start',
-            'session_id': 'e0d836e6-2128-436b-a689-38c47a477118',
-            'ts': '2016-11-06T03:11:56'
-
-    }
+def test_validate_start_event__invalid_country_format():
+    event = get_sample_start_event()
+    event['country'] = 'AAE'
     with pytest.raises(ValueError) as e_info:
+        validate_start_event(event)
+
+
+'''
+Testing validation of end events
+'''
+
+
+def test_validate_end_event__valid_event_should_not_raise_error():
+    event = get_sample_end_event()
+    try:
+        validate_end_event(event)
+        assert True
+    except:
+        pytest.fail("Valid end event raised exception")
+
+
+def test_validate_end_event__missing_event():
+    event = get_sample_end_event()
+    del event['event']
+    with pytest.raises(TypeError) as e_info:
+        validate_start_event(event)
+
+
+def test_validate_end_event__missing_player_id():
+    event = get_sample_end_event()
+    del event['player_id']
+    with pytest.raises(TypeError) as e_info:
+        validate_start_event(event)
+
+
+def test_validate_end_event__missing_session_id():
+    event = get_sample_end_event()
+    del event['session_id']
+    with pytest.raises(TypeError) as e_info:
+        validate_start_event(event)
+
+
+def test_validate_end_event__missing_ts():
+    event = get_sample_end_event()
+    del event['ts']
+    with pytest.raises(TypeError) as e_info:
         validate_start_event(event)

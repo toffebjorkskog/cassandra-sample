@@ -11,7 +11,10 @@ def validate_start_event(event):
             raise TypeError('Missing attribute: {}'.format(key))
 
     if event['event'] != 'start':
-        raise ValueError('Invalid event attribute, allowed values are "start" and "end"')
+        raise ValueError(
+            'Invalid event attribute, '
+            'allowed values are "start" and "end"'
+        )
 
     dateutil.parser.parse(event['ts'])  # naturally raises exception..
 
@@ -31,10 +34,12 @@ def validate_end_event(event):
             raise TypeError('Missing attribute: {}'.format(key))
 
     if event['event'] != 'end':
-        raise ValueError('Invalid event attribute, allowed values are "start" and "end"')
+        raise ValueError(
+            'Invalid event attribute, '
+            'allowed values are "start" and "end"'
+        )
 
     dateutil.parser.parse(event['ts'])  # naturally raises exception..
 
     UUID(event['player_id'])
     UUID(event['session_id'])
-
