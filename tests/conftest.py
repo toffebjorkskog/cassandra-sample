@@ -41,7 +41,7 @@ def _reset_db(app, db):
     create_keyspace_simple(app.config['CASSANDRA_KEYSPACE'],
                            replication_factor=1)
 
-    # create the tables from out models.
+    # create the tables from our models.
     db.sync_db()
 
 
