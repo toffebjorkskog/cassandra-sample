@@ -7,13 +7,13 @@
   and
   https://github.com/pytest-dev/pytest-flask/issues/70#issuecomment-361005780
 '''
-
 import pytest
 from player_session_service import create_app
 from player_session_service.models import db as _db
 from cassandra.cqlengine.management import (
     drop_keyspace, create_keyspace_simple
 )
+
 
 @pytest.fixture(scope="session")
 def app(request):
@@ -22,6 +22,7 @@ def app(request):
     """
     app = create_app("testing")  # important parameter
     return app
+
 
 @pytest.fixture(scope="session")
 def db(app, request):
@@ -34,9 +35,10 @@ def db(app, request):
 
 
 def _reset_db(app, db):
-    """
-    Returns session-wide reset db
-    """
+    '''
+    Get a clean and empty database.
+    When testing, the app is initiated with keyspace 'testing'
+    '''
     drop_keyspace(app.config['CASSANDRA_KEYSPACE'])
     create_keyspace_simple(app.config['CASSANDRA_KEYSPACE'],
                            replication_factor=1)
@@ -48,7 +50,7 @@ def _reset_db(app, db):
 @pytest.fixture(scope="function", autouse=True)
 def session(app, db, request):
     """
-    resets session
+    Resets session. We want a clean empty db for each (py)test.
     """
     with app.app_context():
         _reset_db(app, db)
