@@ -1,8 +1,0 @@
-cassandra-driver
-flask
-flask_restplus
-flask-cqlalchemy
-
-#testing
-pytest
-tavern
