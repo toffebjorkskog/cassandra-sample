@@ -8,8 +8,8 @@
   https://github.com/pytest-dev/pytest-flask/issues/70#issuecomment-361005780
 '''
 import pytest
-from player_session_service import create_app
-from player_session_service.models import db as _db
+from app import create_app
+from app.models import db as _db
 from cassandra.cqlengine.management import (
     drop_keyspace, create_keyspace_simple
 )

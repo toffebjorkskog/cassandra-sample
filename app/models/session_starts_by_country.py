@@ -1,4 +1,4 @@
-from player_session_service.models import db
+from app.models import db
 
 
 class SessionStartsByCountry(db.Model):

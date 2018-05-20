@@ -23,8 +23,8 @@ The description of the endpoints can be seen at the root of the server for insta
 
 
 ## <a name="configuration"></a>Configuration
-The default configuration settings are located in `player_session_service/config/default_settings.cfg`.
-The settings can be overriden by pointing the environment variable `PLAYER_SESSION_SERVICE_SETTINGS` to a similar config file.
+The default configuration settings are located in `example_config.cfg`.
+The settings can be overriden by pointing the environment variable `FLASK_APP_CONFIG_FILE` to a similar config file.
 
 
 ## Testing
