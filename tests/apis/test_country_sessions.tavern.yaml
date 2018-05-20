@@ -1,7 +1,7 @@
 ---
 # Test for thesting API for fetching session starts for the last X
 # (X is defined by the user) hours for each country
-test_name: Query 
+test_name: Latest sessions per country
 
 includes:
   - !include includes.yaml
