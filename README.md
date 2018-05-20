@@ -29,7 +29,3 @@ For Unit testing, run:
 ```
 pipenv run test
 ```
-For Continuous Integration Testing of the REST-API, run the following:
-```
-pipenv run test-api
-```

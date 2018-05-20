@@ -21,7 +21,7 @@ stages:
     response:
       status_code: 201
 
-  - name: Submit one start event without microseconds
+  - name: Submit one start event also with microseconds
     request:
       url: "{host}/player-session-service/player-events/"
       method: POST
@@ -30,7 +30,7 @@ stages:
           country: IS
           player_id: fa6e6aab26b54ba7995392a3fec6b9b8
           session_id: "e20d2deb-5241-43f9-a979-6b4bbbec58ce"
-          ts: "2017-11-06T14:54:48"
+          ts: "2017-12-06T14:54:48"
       headers:
         content-type: application/json
     response:
