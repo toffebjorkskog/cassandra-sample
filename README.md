@@ -29,6 +29,11 @@ Get sample data to the project root folder:
 ```
 wget https://cdn.example.com/sample_data.jsonl.bz2 -O - | bunzip2 > sample-data.jsonl
 ```
+insert the sample data:
+```
+pipenv shell
+python tests/prepopulate.py sample-data.jsonl
+```
 
 For Unit testing, run:
 ```

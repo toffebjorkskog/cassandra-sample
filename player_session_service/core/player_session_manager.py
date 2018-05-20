@@ -121,3 +121,14 @@ def get_session_starts_for_country(country_code, hours):
         return []
     else:
         return []
+
+
+def get_latest_player_sessions(player_id):
+    try:
+        q = CompletedSessionsByPlayerId.objects(player_id=player_id)
+        return [session.get_data() for session in q.all().limit(20)]
+
+    except _DoesNotExist:
+        return []
+    else:
+        return []

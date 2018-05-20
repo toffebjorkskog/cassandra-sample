@@ -1,6 +1,8 @@
 from flask_restplus import Api
 from .player_events import api as player_events
 from .country_sessions import api as country_sessions
+from .player_sessions import api as player_sessions
+
 
 def init_app(app):
     api = Api(
@@ -16,6 +18,7 @@ def init_app(app):
     )
     api.add_namespace(player_events, path='/player-session-service')
     api.add_namespace(country_sessions, path='/player-session-service')
+    api.add_namespace(player_sessions, path='/player-session-service')
     # Add similar row for more endpoints...
 
     api.init_app(app)

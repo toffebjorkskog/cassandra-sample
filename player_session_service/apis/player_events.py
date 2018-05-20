@@ -22,7 +22,7 @@ event = api.model('Player Event', {
     ),
     'session_id': fields.String(
         required=True,
-        description='Player id, example: 4a0c43c9-c43a-42ff-ba55-67563dfa35d4'
+        description='Session id, example: 4a0c43c9-c43a-42ff-ba55-67563dfa35d4'
     ),
     'ts': fields.DateTime(
         required=True,

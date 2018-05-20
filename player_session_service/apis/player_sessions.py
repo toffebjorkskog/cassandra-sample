@@ -2,13 +2,17 @@ from flask import request
 
 from flask_restplus import Namespace, Resource, fields
 from ..core.player_session_manager import (insert_player_events,
-                                           get_session_starts_for_country)
+                                           get_latest_player_sessions)
 
-api = Namespace('Sessions per Country', description='For retrieving sessions '
-                'for the last X hours per country')
+api = Namespace('Player Sessions', description='For retrieving the last 20 '
+                'completed sessions for a user')
 
 # Api response type.
-start_sessions = api.model('Start Sessions', {
+player_sessions = api.model('Player Sessions', {
+    'event': fields.String(
+        required=False,
+        description='completed'
+    ),
     'country': fields.String(
         required=False,
         description='Country code, example: FI'
@@ -25,20 +29,24 @@ start_sessions = api.model('Start Sessions', {
         required=True,
         description='Start or end Timestamp'
     ),
+    'end_ts': fields.DateTime(
+        required=True,
+        description='Start or end Timestamp'
+    ),
 })
 
 
 # Api endpoints
-@api.route('/started-sessions/<country_code>/<hours>')
-class StartedSessionsPerCountry(Resource):
-    @api.doc('per_country')
+@api.route('/player-sessions/<player_id>')
+class PlayerSessions(Resource):
+    @api.doc('player_sessions')
     # @api.marshal_list_with(start_sessions)
-    def get(self, country_code, hours):
+    def get(self, player_id):
         '''
-        Retrieve start events for the last X hours and given country.
+        Retrieve the last 20 completed sessions for a player
         '''
         try:
-            sessions = get_session_starts_for_country(country_code, hours)
-            return {'session_starts': sessions}, 200
+            sessions = get_latest_player_sessions(player_id)
+            return {'player_sessions': sessions}, 200
         except Exception as e:
             return {'status': 'Bad Request', 'message': str(e)}, 400

@@ -12,3 +12,13 @@ class CompletedSessionsByPlayerId(db.Model):
     end_ts = db.columns.DateTime(primary_key=True, clustering_order='DESC')
     country = db.columns.Text(required=True)
     start_ts = db.columns.DateTime()
+
+    def get_data(self):
+        return {
+            'type': 'completed',
+            'country': self.country,
+            'player_id': str(self.player_id),
+            'session_id': str(self.session_id),
+            'start_ts': str(self.start_ts),
+            'end_ts': str(self.end_ts)
+        }
