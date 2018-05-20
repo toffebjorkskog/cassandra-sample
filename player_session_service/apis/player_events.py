@@ -1,9 +1,10 @@
 from flask import request
 
 from flask_restplus import Namespace, Resource, fields
-from ..core.player_session_manager import insert_player_events
+from ..core.player_session_manager import (insert_player_events,
+                                           get_session_starts_for_country)
 
-api = Namespace('player_events', description='Player Events related operations')
+api = Namespace('Player Events and Sessions', description='Player Events related operations')
 
 event = api.model('Player Event', {
     'event': fields.String(
@@ -62,8 +63,9 @@ player_events_schema = api.schema_model('PlayerEvents', {
 
 @api.route('/player-events/')
 class PlayerSessionEvents(Resource):
-    @api.doc('post_events')
+    @api.doc('Player Event')
     @api.expect(player_events_schema, validate=True)
+    @api.marshal_list_with(event)
     def post(self):
         '''Submit event batches (1-10 events / batch)'''
         try:

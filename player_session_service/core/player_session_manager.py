@@ -92,3 +92,14 @@ def check_event_completed(event):
         return completed_session
     else:
         return None
+
+
+def get_session_starts_for_country(country_code, hours):
+    """
+    Returns the latest session starts for the specified countr in the last x hours
+    """
+    last_x_hours = lastHourDateTime = datetime.datetime.now() - datetime.timedelta(hours)
+    q = SessionStartsByCountry.objects().filter(country=country_code)
+    q = q.filter(start_ts > last_x_hours)
+    start_events = q.get()
+    return {'start_events': dict(player_session)}
