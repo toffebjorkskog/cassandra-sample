@@ -1,5 +1,8 @@
 import dateutil.parser
-
+import datetime
+from player_session_service.core.player_session_manager import (
+    get_session_starts_for_country
+)
 from player_session_service.models.session_events_by_player_id import (
     SessionEventsByPlayerId,
     StartSessionEvents,
@@ -96,6 +99,10 @@ def completed_session_exists(player_id, session_id):
         return False
     else:
         return False
+
+
+def count_start_sessions(country_code, hours):
+    return len(get_session_starts_for_country(country_code, hours))
 
 
 def load_lots_of_events():

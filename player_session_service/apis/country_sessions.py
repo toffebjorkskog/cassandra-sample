@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 
 from flask_restplus import Namespace, Resource, fields
 from ..core.player_session_manager import (insert_player_events,
@@ -32,13 +32,14 @@ start_sessions = api.model('Start Sessions', {
 @api.route('/started-sessions/<country_code>/<hours>')
 class StartedSessionsPerCountry(Resource):
     @api.doc('per_country')
-    @api.marshal_list_with(start_sessions)
+    #@api.marshal_list_with(start_sessions)
     def get(self, country_code, hours):
         '''
         Retrieve start events for the last X hours and given country.
         '''
         try:
-            return get_session_starts_for_country(country_code, hours), 201
+            sessions = get_session_starts_for_country(country_code, hours)
+            return {'session_starts': sessions}, 201
         except Exception as e:
             return {'status': 'Bad Request', 'message': str(e)}, 400
 

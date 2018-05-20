@@ -8,8 +8,9 @@ from player_session_service.models.session_events_by_player_id import (
 from helpfunctions import (
     get_sample_start_event, get_sample_end_event, session_event_exists,
     session_start_event_exists, session_end_event_exists,
-    completed_session_exists, load_lots_of_events
+    completed_session_exists, load_lots_of_events, count_start_sessions
 )
+from faker import Faker
 
 
 def test_create_start_event__event_is_added_to_cassandra():
@@ -118,3 +119,28 @@ def test_insert_player_events__pass_1_to_10_events__does_not_throw_exception():
     for i in range(0, 9):
         insert_player_events(events[i*10:i*10+i+1])
     assert True
+
+
+def test_get_session_starts_for_country__prepolulates_with_10__gets_10():
+    amount_before = count_start_sessions(country_code='FI', hours=48)
+
+    player_id = '000000000000000000000000000000{}'  # lacks 2 digits
+    session_id = '00000000-0123-4567-8910-0000000000{}'  # lacks 2 digits
+    event = {
+        'event': 'start',
+        'country': 'FI',
+    }
+    fake = Faker()
+
+    for i in range(10, 20):
+        event['player_id'] = player_id.format(i)
+        event['session_id'] = session_id.format(i)
+        event['ts'] = str(fake.date_time_between(start_date='-2d', end_date='now'))
+        start_event = insert_start_event(event)
+
+    amount_after = count_start_sessions(country_code='FI', hours=48)
+
+    if amount_before == 0 and amount_after == 10:
+        assert True
+    else:
+        pytest.fail("before: {}, after:{}".format(amount_before, amount_after))

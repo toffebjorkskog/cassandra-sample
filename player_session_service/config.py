@@ -10,6 +10,7 @@ class BaseConfig(object):
     SECRET_KEY = 'qpwkedfvdöojfödskg'  # override this in production
     CASSANDRA_REPLICATION_FACTOR = 1
 
+
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     TESTING = True

@@ -9,3 +9,12 @@ class SessionStartsByCountry(db.Model):
     start_ts = db.columns.DateTime(primary_key=True, clustering_order="DESC")
     player_id = db.columns.UUID(required=True)
     session_id = db.columns.UUID(required=True)
+
+    def get_data(self):
+        return {
+            'type': 'start',
+            'country': self.country,
+            'player_id': str(self.player_id),
+            'session_id': str(self.session_id),
+            'ts': str(self.start_ts)
+    }

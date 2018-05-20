@@ -1,4 +1,9 @@
+import uuid
+import dateutil.parser
+from datetime import datetime, timedelta
+
 from cassandra.cluster import Cluster
+
 from ..models.session_starts_by_country import SessionStartsByCountry
 from ..models.completed_sessions_by_player_id import (
     CompletedSessionsByPlayerId
@@ -6,9 +11,8 @@ from ..models.completed_sessions_by_player_id import (
 from ..models.session_events_by_player_id import (
     StartSessionEvents, EndSessionEvents, SessionEventsByPlayerId
 )
-import uuid
-import dateutil.parser
 from .validation import validate_start_event, validate_end_event
+from cassandra.cqlengine.query import DoesNotExist as _DoesNotExist
 
 
 def insert_player_events(player_events):
@@ -95,11 +99,23 @@ def check_event_completed(event):
 
 
 def get_session_starts_for_country(country_code, hours):
-    """
-    Returns the latest session starts for the specified countr in the last x hours
-    """
-    last_x_hours = lastHourDateTime = datetime.datetime.now() - datetime.timedelta(hours)
-    q = SessionStartsByCountry.objects().filter(country=country_code)
-    q = q.filter(start_ts > last_x_hours)
-    start_events = q.get()
-    return {'start_events': dict(player_session)}
+    # this is if we need to fetch from several partitions
+    # as the partitionkey is a combination of country code and a bucket
+    # which is a date. If it turns out the partitions are too large
+    # antoher bucket size needs to be considered, perhaps hourly or every n hours.
+    d1 = datetime.now() - timedelta(hours=int(hours))
+    d2 = datetime.now()
+    diff = d2 - d1
+    buckets = [str((d1+timedelta(i)).date()) for i in reversed(range(diff.days + 1))]
+    # --> ['2018-05-20', '2018-05-19', '2018-05-18']
+
+    try:
+        q = SessionStartsByCountry.objects(country=country_code,
+                                           daybucket__in=buckets,
+                                           start_ts__gt=d1)
+        return [session.get_data() for session in q.all()]
+
+    except _DoesNotExist:
+        return []
+    else:
+        return []

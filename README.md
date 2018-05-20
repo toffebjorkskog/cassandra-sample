@@ -11,7 +11,7 @@ cassandra -f
 ```
 Install depemndencies with [pipenv](https://docs.pipenv.org/)
 ```
-pipenv install
+pipenv install --dev
 ```
 
 And then launch the API
