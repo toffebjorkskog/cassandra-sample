@@ -18,9 +18,9 @@ def create_app(KEYSPACE_OVERRIDE=None):
     app.config.from_object(config_options[config_name])
 
     # Override defaults settings from file that env variable
-    # PLAYER_SESSION_SERVICE_SETTINGS points to
-    if 'PLAYER_SESSION_SERVICE_SETTINGS' in os.environ:
-        app.config.from_envvar('PLAYER_SESSION_SERVICE_SETTINGS')
+    # FLASK_APP_CONFIG_FILE points to
+    if 'FLASK_APP_CONFIG_FILE' in os.environ:
+        app.config.from_envvar('FLASK_APP_CONFIG_FILE')
 
     # Finally, allow keyspace to be overridden via app factory paramter
     if KEYSPACE_OVERRIDE is not None:

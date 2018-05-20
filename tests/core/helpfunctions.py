@@ -1,15 +1,15 @@
 import dateutil.parser
 import datetime
-from player_session_service.core.player_session_manager import (
+from app.core.player_session_manager import (
     get_session_starts_for_country,
     get_latest_player_sessions
 )
-from player_session_service.models.session_events_by_player_id import (
+from app.models.session_events_by_player_id import (
     SessionEventsByPlayerId,
     StartSessionEvents,
     EndSessionEvents
 )
-from player_session_service.models.completed_sessions_by_player_id import (
+from app.models.completed_sessions_by_player_id import (
     CompletedSessionsByPlayerId
 )
 from cassandra.cqlengine.query import DoesNotExist as _DoesNotExist

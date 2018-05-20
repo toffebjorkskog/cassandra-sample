@@ -1,8 +1,8 @@
 import pytest
-from player_session_service.core.player_session_manager import (
+from app.core.player_session_manager import (
     insert_start_event, insert_end_event, insert_player_events
 )
-from player_session_service.models.session_events_by_player_id import (
+from app.models.session_events_by_player_id import (
     SessionEventsByPlayerId
 )
 from helpfunctions import (

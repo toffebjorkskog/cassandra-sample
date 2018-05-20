@@ -1,5 +1,5 @@
 import pytest
-from player_session_service.core.validation import (
+from app.core.validation import (
     validate_start_event, validate_end_event
 )
 from helpfunctions import get_sample_start_event, get_sample_end_event
