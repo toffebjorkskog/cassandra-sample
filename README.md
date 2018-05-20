@@ -18,6 +18,9 @@ And then launch the API
 ```
 pipenv run server
 ```
+The description of the endpoints can be seen at the root of the server for instance:
+(http://localhost:5000/) where the individual endpoints can be opened and tried out. Both Cassandra and the server needs to be running.
+
 
 ## <a name="configuration"></a>Configuration
 The default configuration settings are located in `player_session_service/config/default_settings.cfg`.
