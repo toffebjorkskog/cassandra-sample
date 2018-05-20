@@ -97,7 +97,24 @@ CREATE TABLE player_sessions.session_events_by_player_id (
 ) WITH CLUSTERING ORDER BY (session_id ASC, ts DESC, event ASC)
 ```
 The complete cql dump can be seen in app/models/schema.cql
+I decided to create a combined paritition key for the table session_starts_by_country since they need to be
+queried based on country and hours back. Therefore i decided to enable part of the dates to function as about
+bucket to allow for an even partition accross nodes. The daybucket consists of the date of the event.
 
 # API description
+The task was to design and implement a player session service which consumes events and provides metrics about players sessions.
+Each user will generate two events, one start event when the session starts and one end event when session is finished.
+When both events have been received the session is considered complete. Service is expected to handle massive amount of sessions.
+
+## Requirements
+- Use Python and Cassandra
+- All endpoints are REST APIs
+- API for receiving event batches (1-10 events / batch)
+- API for fetching session starts for the last X (X is defined by the user) hours for each country API for fetching last 20 complete sessions for a given player
+- Data older than 1 year should be discarded
+
+These requirements are fulfilled. The data which is inserted has a TTL of one year.
 
 # Additional notes
+There is a branch for containerizing this project using Docker but it is not finished.
+> This project was very interesting and i am looking forward to feedback. - Christoffer Björkskog
