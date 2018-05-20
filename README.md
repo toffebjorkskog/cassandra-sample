@@ -25,7 +25,17 @@ The settings can be overriden by pointing the environment variable `PLAYER_SESSI
 
 
 ## Testing
+Get sample data to the project root folder:
+```
+wget https://cdn.example.com/sample_data.jsonl.bz2 -O - | bunzip2 > sample-data.jsonl
+```
+
 For Unit testing, run:
 ```
 pipenv run test
 ```
+The tests come in two parts: unit testing with pytest, and api testing using `tavern-ci`
+which tests the REST-endpoints. Both are run by pytest using the previous command.
+Unit testing uses its own "testing" keyspace, but the api testing uses the one that the flask app
+is currently using.
+Note: The unit test assumes that the provided sample data `sample_data.jsonl` file is in the root folder of the project.

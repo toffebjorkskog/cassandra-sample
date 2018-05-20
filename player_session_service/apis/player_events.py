@@ -65,7 +65,7 @@ player_events_schema = api.schema_model('PlayerEvents', {
 class PlayerSessionEvents(Resource):
     @api.doc('Player Event')
     @api.expect(player_events_schema, validate=True)
-    @api.marshal_list_with(event)
+    #@api.marshal_list_with(event)
     def post(self):
         '''Submit event batches (1-10 events / batch)'''
         try:

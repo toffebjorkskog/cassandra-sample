@@ -9,6 +9,7 @@ flask-restplus = "*"
 Flask = "*"
 Flask-CQLAlchemy = "*"
 tavern = "*"
+requests = "*"
 
 [dev-packages]
 pytest = "*"

@@ -1,9 +1,9 @@
 from flask import Flask
 import os
-from config import TestingConfig, DevelopmentConfig, ProductionConfig
+from .config import TestingConfig, DevelopmentConfig, ProductionConfig
 
 config_options = {
-    "development": "config.DevelopmentConfig",
+    "development": DevelopmentConfig,
     "testing": "config.TestingConfig",
     "production": "config.ProductionConfig",
 }
