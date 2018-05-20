@@ -9,7 +9,7 @@ includes:
 stages:
   - name: fetch sessions for the last x hours in Finland
     request:
-      url: "{host}/player-session-service/country/FI/10"
+      url: "{host}/player-session-service/started-sessions/FI/100000"
       method: GET
       headers:
         content-type: application/json

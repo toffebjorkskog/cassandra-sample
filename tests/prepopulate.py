@@ -21,6 +21,8 @@ def make_request(batch):
 
 
 filename = sys.argv[1]
+amount = int(sys.argv[2])
+
 if os.path.exists(filename):
     with open(os.path.basename(filename), "r") as file:
         batch = []
@@ -34,7 +36,7 @@ if os.path.exists(filename):
                 batches += 1
                 make_request(batch)
                 batch = []
-            if batches > 1000:
+            if batches*10 > amount:
                 break
 
 else:
