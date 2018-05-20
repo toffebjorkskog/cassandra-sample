@@ -39,7 +39,7 @@ class StartedSessionsPerCountry(Resource):
         '''
         try:
             sessions = get_session_starts_for_country(country_code, hours)
-            return {'session_starts': sessions}, 201
+            return {'session_starts': sessions}, 200
         except Exception as e:
             return {'status': 'Bad Request', 'message': str(e)}, 400
 
