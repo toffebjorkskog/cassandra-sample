@@ -135,7 +135,8 @@ def test_get_session_starts_for_country__prepolulates_with_10__gets_10():
     for i in range(10, 20):
         event['player_id'] = player_id.format(i)
         event['session_id'] = session_id.format(i)
-        event['ts'] = str(fake.date_time_between(start_date='-2d', end_date='now'))
+        event['ts'] = str(fake.date_time_between(start_date='-2d',
+                                                 end_date='now'))
         start_event = insert_start_event(event)
 
     amount_after = count_start_sessions(country_code='FI', hours=48)

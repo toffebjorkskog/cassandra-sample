@@ -32,7 +32,7 @@ start_sessions = api.model('Start Sessions', {
 @api.route('/started-sessions/<country_code>/<hours>')
 class StartedSessionsPerCountry(Resource):
     @api.doc('per_country')
-    #@api.marshal_list_with(start_sessions)
+    # @api.marshal_list_with(start_sessions)
     def get(self, country_code, hours):
         '''
         Retrieve start events for the last X hours and given country.
@@ -42,4 +42,3 @@ class StartedSessionsPerCountry(Resource):
             return {'session_starts': sessions}, 200
         except Exception as e:
             return {'status': 'Bad Request', 'message': str(e)}, 400
-

@@ -102,11 +102,13 @@ def get_session_starts_for_country(country_code, hours):
     # this is if we need to fetch from several partitions
     # as the partitionkey is a combination of country code and a bucket
     # which is a date. If it turns out the partitions are too large
-    # antoher bucket size needs to be considered, perhaps hourly or every n hours.
+    # antoher bucket size needs to be considered,
+    # perhaps hourly or every n hours.
     d1 = datetime.now() - timedelta(hours=int(hours))
     d2 = datetime.now()
     diff = d2 - d1
-    buckets = [str((d1+timedelta(i)).date()) for i in reversed(range(diff.days + 1))]
+    buckets = [str((d1+timedelta(i)).date())
+               for i in reversed(range(diff.days + 1))]
     # --> ['2018-05-20', '2018-05-19', '2018-05-18']
 
     try:

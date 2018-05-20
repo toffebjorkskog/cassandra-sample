@@ -6,7 +6,7 @@ class SessionStartsByCountry(db.Model):
     __default_ttl__ = 31536000
     country = db.columns.Text(partition_key=True, primary_key=True)
     daybucket = db.columns.Text(partition_key=True, primary_key=True)
-    start_ts = db.columns.DateTime(primary_key=True, clustering_order="DESC")
+    start_ts = db.columns.DateTime(primary_key=True, clustering_order='DESC')
     player_id = db.columns.UUID(required=True)
     session_id = db.columns.UUID(required=True)
 
@@ -17,4 +17,4 @@ class SessionStartsByCountry(db.Model):
             'player_id': str(self.player_id),
             'session_id': str(self.session_id),
             'ts': str(self.start_ts)
-    }
+        }
