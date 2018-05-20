@@ -39,4 +39,3 @@ if os.path.exists(filename):
 
 else:
     print("Could not find sample data file..")
-
