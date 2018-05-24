@@ -1,6 +1,6 @@
-FROM python
+FROM charact3/python-cassandra-driver
 
-RUN apt-get update && apt-get install -y python3-dateutil
+RUN apt-get update
 RUN pip install Twisted[tls]
 
 RUN mkdir /app
@@ -11,4 +11,4 @@ RUN pip install -e .
 EXPOSE 8000
 EXPOSE 8080
 
-CMD python main.py
+CMD python app

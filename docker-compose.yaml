@@ -1,24 +1,92 @@
+# It is cuerrently not working to run docker-compose up,
+# it complains about "Seed provider couldn't lookup host cassandra_node1"
 version: '3'
 services:
-    api:
-        container_name: player_session_manager_api
-        build: .
-        #restart: always
+    # See http://abiasforaction.net/apache-cassandra-cluster-docker/
+    cassandra_node1:
+        hostname: cassandra_node1
+        image: cassandra:3
+        command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 0; fi && /docker-entrypoint.sh cassandra -f'
+        volumes:
+            - ./data/cassandra-node1:/var/lib/cassandra
+        environment:
+            - CASSANDRA_BROADCAST_ADDRESS=cassandra_node1
+            - CASSANDRA_CLUSTER_NAME=sample_cluster
         expose:
-            - 5000
+            - 7000
+            - 7001
+            - 7199
+            - 9042
+            - 9160
+        ports:
+            - 7000:7000
+            - 7001:7001
+            - 7199:7199
+            - 9042:9042
+            - 9160:9160
+        ulimits:
+            memlock: -1
+            nproc: 32768
+            nofile: 100000
+
+    cassandra_node2:
+        hostname: cassandra_node2
+        image: cassandra:3
+        # Starting second node with a delay
+        command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 60; fi && /docker-entrypoint.sh cassandra -f'
+        volumes:
+            - ./data/cassandra-node2:/var/lib/cassandra
+        environment:
+            - CASSANDRA_BROADCAST_ADDRESS=cassandra_node2
+            - CASSANDRA_CLUSTER_NAME=sample_cluster
+            - CASSANDRA_SEEDS=cassandra_node1
+        depends_on:
+              - cassandra_node1
+        expose:
+            - 7000
+            - 7001
+            - 7199
+            - 9042
+            - 9160
+        ulimits:
+            memlock: -1
+            nproc: 32768
+            nofile: 100000
+
+    cassandra_node3:
+        hostname: cassandra_node3
+        image: cassandra:3
+        # Starting third node with a delay
+        command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 120; fi && /docker-entrypoint.sh cassandra -f'
+        volumes:
+            - ./data/cassandra-node3:/var/lib/cassandra
+        environment:
+            - CASSANDRA_BROADCAST_ADDRESS=cassandra_node3
+            - CASSANDRA_CLUSTER_NAME=sample_cluster
+            - CASSANDRA_SEEDS=cassandra_node1
+        depends_on:
+              - cassandra_node1
+        expose:
+            - 7000
+            - 7001
+            - 7199
+            - 9042
+            - 9160
+        ulimits:
+            memlock: -1
+            nproc: 32768
+            nofile: 100000
+    api:
+        container_name: sample-api
+        build: .
+        expose:
+            - 8080
             - 8000
         ports:
-            - "8000:8000"
+            - "8000:8080"
         working_dir: /app
-
-    cassandra:
-        container_name: sample-cassandra
-        image: launcher.gcr.io/google/cassandra3
-        ports:
-        - '7000:7000'
-        - '7001:7001'
-        - '7199:7199'
-        - '9042:9042'
-        - '9160:9160'
-        volumes:
-        - ./cassandradata:/var/lib/cassandra
+        environment:
+            - CASSANDRA_HOSTS=cassandra_node1
+        depends_on:
+            - cassandra_node1
+        command: bash -c 'sleep 70 && /docker-entrypoint.sh python app'

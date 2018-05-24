@@ -1,14 +1,18 @@
 # Sample Cassandra REST-API
 
-### Installation
 
-Install and start Cassandra.
+### Development Installation
+
+Install and start Cassandra either in Docker as in later steps, or have it running locally.
 By default a local single node on localhost is assumed. You can also connect to a cluster.
-If you want to connect to an external node or cluster, see [_configuraton_](#configuration) section
+If you want to connect to an external node or cluster you can add it in a see [_configuraton_](#configuration) file or set
+a environemnt variable called `CASSANDRA_HOSTS`
+
+Start cassandra:
 ```
 cassandra -f
 ```
-Install depemndencies with [pipenv](https://docs.pipenv.org/)
+Install app depemndencies with [pipenv](https://docs.pipenv.org/)
 ```
 pipenv install --dev
 ```
@@ -27,7 +31,7 @@ The settings can be overriden by pointing the environment variable `FLASK_APP_CO
 
 
 # Testing
-
+Requires you run it locally with pipenv
 ## Unit testing and ci-testing
 For Unit testing, run:
 ```
@@ -52,6 +56,39 @@ python tests/prepopulate.py sample-data.jsonl 10000
 ```
 
 Go to [the api docs](http://localhost:5000/) and use the "try out" section for the different endpoints
+
+# Docker
+
+### Run Cassandra in Docker.
+Launch a Cassandra node if you dont have one, here we save the id to a variable to use in the next step ...
+```
+CASSANDRA_HOST_ID=`docker run -d -t cassandra:3`
+```
+We get the ip of the cassandra node and add it to a varialbe that we can use in the next step.
+
+```
+CASSANDRA_HOSTS=`docker inspect -f '{{ .NetworkSettings.IPAddress }}' $CASSANDRA_HOST_ID`
+```
+check that it worked:
+```
+echo $CASSANDRA_HOSTS
+```
+>> 172.17.0.4
+
+
+The project will use that node if it finds an environment variable called `CASSANDRA_HOSTS`. It may be a comma separated list of nostnames or ip-addresses
+
+### Running the app in Docker
+
+Build an image of current project:
+```
+docker build -t sample-api .
+```
+Run it and pass the cassandra ip as an environment variable:
+```
+docker run -p 8000:8080 --env CASSANDRA_HOSTS=$CASSANDRA_HOSTS -t sample-api
+```
+
 
 # Technologies used
 

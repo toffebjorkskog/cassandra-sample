@@ -22,6 +22,11 @@ def create_app(KEYSPACE_OVERRIDE=None):
     if 'FLASK_APP_CONFIG_FILE' in os.environ:
         app.config.from_envvar('FLASK_APP_CONFIG_FILE')
 
+    # Override CASSANDRA_HOSTS from environment variable.
+    if 'CASSANDRA_HOSTS' in os.environ:
+        app.config['CASSANDRA_HOSTS'] = os.getenv('CASSANDRA_HOSTS', '127.0.0.1').split(',')
+
+
     # Finally, allow keyspace to be overridden via app factory paramter
     if KEYSPACE_OVERRIDE is not None:
         app.config['CASSANDRA_KEYSPACE'] = KEYSPACE_OVERRIDE
