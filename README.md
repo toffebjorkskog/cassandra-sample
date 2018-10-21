@@ -144,14 +144,8 @@ Each user will generate two events, one start event when the session starts and 
 When both events have been received the session is considered complete. Service is expected to handle massive amount of sessions.
 
 ## Requirements
-- Use Python and Cassandra
-- All endpoints are REST APIs
-- API for receiving event batches (1-10 events / batch)
-- API for fetching session starts for the last X (X is defined by the user) hours for each country API for fetching last 20 complete sessions for a given player
-- Data older than 1 year should be discarded
-
-These requirements are fulfilled. The data which is inserted has a TTL of one year.
-
-# Additional notes
-There is a branch for containerizing this project using Docker but it is not finished.
-> This project was very interesting and i am looking forward to feedback. - Christoffer Björkskog
+In this project i wanted to:
+- Create a Cassandra / Python driven REST-API
+- Have the API for receive event batches (1-10 events / batch)
+- Create an API for fetching session starts for the last X (X is defined by the user) hours for each country API for fetching last 20 complete sessions for a given player
+- Discard data older than 1 year
