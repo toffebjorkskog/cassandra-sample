@@ -42,6 +42,8 @@ services:
             - CASSANDRA_SEEDS=cassandra_node1
         depends_on:
               - cassandra_node1
+        links:
+            - cassandra_node1:cassandra_node1
         expose:
             - 7000
             - 7001
@@ -66,6 +68,8 @@ services:
             - CASSANDRA_SEEDS=cassandra_node1
         depends_on:
               - cassandra_node1
+        links:
+            - cassandra_node1:cassandra_node1
         expose:
             - 7000
             - 7001
@@ -89,4 +93,5 @@ services:
             - CASSANDRA_HOSTS=cassandra_node1
         depends_on:
             - cassandra_node1
-        command: bash -c 'sleep 70 && /docker-entrypoint.sh python app'
+        links:
+            - cassandra_node1:cassandra_node1
