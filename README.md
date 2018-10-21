@@ -42,19 +42,6 @@ which tests the REST-endpoints. Both are run by pytest using the previous comman
 Unit testing uses its own "testing" keyspace which is reset every run, the api testing uses the development keyspace that the flask app
 is also uses locally.
 
-## Verification
-
-Get sample data to the project root folder:
-```
-wget https://cdn.example.com/sample_data.jsonl.bz2 -O - | bunzip2 > sample-data.jsonl
-```
-Download the [sample data]( https://cdn.example.com/sample_data.jsonl.bz2) and place it as `sample_data.jsonl`  in the root folder of the project.
-Import a couple of thousand of them by running. This is not mandarory for unit testing but for [verifying](http://localhost:5000/) that the apis work and for the travis-ci part of the tests it is needed.
-```
-pipenv shell
-python tests/prepopulate.py sample-data.jsonl 10000
-```
-
 Go to [the api docs](http://localhost:5000/) and use the "try out" section for the different endpoints
 
 # Docker
@@ -137,11 +124,6 @@ The complete cql dump can be seen in app/models/schema.cql
 I decided to create a combined paritition key for the table session_starts_by_country since they need to be
 queried based on country and hours back. Therefore i decided to enable part of the dates to function as about
 bucket to allow for an even partition accross nodes. The daybucket consists of the date of the event.
-
-# API description
-The task was to design and implement a player session service which consumes events and provides metrics about players sessions.
-Each user will generate two events, one start event when the session starts and one end event when session is finished.
-When both events have been received the session is considered complete. Service is expected to handle massive amount of sessions.
 
 ## Requirements
 In this project i wanted to:
